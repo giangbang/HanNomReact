@@ -13,6 +13,7 @@ import ROUTE from "../constant/route";
 import ImageDetail from "./ImgDetail";
 import CircularProgress from "@mui/material/CircularProgress";
 import DownloadIcon from "@mui/icons-material/Download";
+import BasicSelect from "./topCharacterSelect";
 
 function ReadPage(props) {
   const [pages, setPages] = useState([]);
@@ -22,11 +23,26 @@ function ReadPage(props) {
   const [images, setImages] = useState([]);
 
   let { id } = useParams();
+  
+  // const getImages = async () => {
+    // let res = await axios(API.GETPAGES + `?id=${id}`)
+    
+    // if (res.data.success) {
+      // res = res.data.data
+      // setPages(res);
+      // setImages(formatInput(res));
+    // } else {
+      // navigate(ROUTE.LOGIN);
+    // }
+  // }
+  // useEffect(async() => {
+    // await getImages()
+  // }, []);
 
   useEffect(() => {
     axios.get(API.GETPAGES + `?id=${id}`).then((res) => {
       if (res.data.success) {
-        // console.log(res.data.data);
+     
         setPages(res.data.data);
         setImages(formatInput(res.data.data));
       } else {
@@ -103,7 +119,10 @@ function ReadPage(props) {
                   <CircularProgress color="inherit" />
                 </Backdrop>
               ) : (
-                `Number of characters detected: ${images[currentPage].boxes.length}`
+                <React.Fragment>
+                  <p>{`Number of characters detected: ${images[currentPage].boxes.length}`}</p>
+                  <BasicSelect />
+                </React.Fragment>
               )}
             </Paper>
             <div

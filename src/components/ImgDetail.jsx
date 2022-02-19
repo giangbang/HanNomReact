@@ -18,7 +18,6 @@ function ImageDetail({ image, drawBoxes, setDrawBoxes }) {
   const ref = useRef(null);
 
   useEffect(() => {
-    console.log(image);
     if (typeof image === "undefined") return;
     if (ref.current && ref.current.offsetWidth < image.width) {
       setScale(ref.current.offsetWidth / image.width);
@@ -34,8 +33,8 @@ function ImageDetail({ image, drawBoxes, setDrawBoxes }) {
     }
   }, [image, scale]);
 
-  const callback = useCallback((drawBoxes) => {
-    setDrawBoxes(drawBoxes);
+  const callback = useCallback((box) => {
+    setDrawBoxes(box);
   }, []);
 
   const updateisAddBoundingBox = useCallback((isAddBoundingBox) => {

@@ -61,8 +61,10 @@ function ImageAnnoDisplay(props) {
         y > box.y_min * scale &&
         y < box.y_max * scale
       ) {
-        setDrawBoxes(box);
-        parrentCallback(box);
+        // console.log(drawBoxes);
+        // console.log(drawBoxes.length)
+        setDrawBoxes([box]);
+        // parrentCallback([box]);
       }
     });
   };
@@ -182,7 +184,6 @@ function ImageAnnoDisplay(props) {
       </>
     );
   };
-  console.log(API.GETIMG + `?id=${props.imgId}`);
   return (
     <div
       id="svgWrapper"
@@ -198,14 +199,10 @@ function ImageAnnoDisplay(props) {
         width={svgWidth}
         height={svgHeight}
         onClick={handleOnclick}
+        style={{backgroundImage: `url(${API.GETIMG}?id=${props.imgId})`,
+        backgroundSize: "100%"}}
       >
-        <image
-          href={API.GETIMG + `?id=${props.imgId}`}
-          //   style={
-          //     imageWidth > imageHeight ? { width: "100%" } : { height: "100%" }
-          //   }
-          style={{ width: "100%", height: "100%" }}
-        />
+      
         {boxes.map((box) =>
           box.label ? (
             <g>
@@ -231,21 +228,22 @@ function ImageAnnoDisplay(props) {
             </g>
           )
         )}
-        {/* {drawBoxes.length > 0 
-          drawBoxes.map(box => ( */}
-        <g>
-          <rect
-            key={drawBoxes.id}
-            x={drawBoxes.x_min * scale}
-            y={drawBoxes.y_min * scale}
-            width={(drawBoxes.x_max - drawBoxes.x_min) * scale}
-            height={(drawBoxes.y_max - drawBoxes.y_min) * scale}
-            style={{ fill: "none", stroke: "yellow", strokeWidth: "2" }}
-          />
-        </g>
+        {drawBoxes.length > 0
+          ? drawBoxes.map((box) => (
+              <g id={"drawBoxes"}>
+                <rect
+                  key={box.id}
+                  x={box.x_min * scale}
+                  y={box.y_min * scale}
+                  width={(box.x_max - box.x_min) * scale}
+                  height={(box.y_max - box.y_min) * scale}
+                  style={{ fill: "none", stroke: "yellow", strokeWidth: "2" }}
+                />
+              </g>
+            ))
+          : null}
         {/* </g>
           ))} */}
-        {console.log("Drawings: ", drawings)}
         {renderManual()}
       </svg>
     </div>
