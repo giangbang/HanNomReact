@@ -5,8 +5,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 
 function ImageDetail({ image, drawBoxes, setDrawBoxes }) {
   const [boxes, setBoxes] = useState([]);
-  // console.log(drawBoxes);
-  // const [drawBoxes, setDrawBoxes] = useState([]);
+
   const [editModes, setEditModes] = useState([]);
   const [scale, setScale] = useState(1);
   const [svgWidth, setSvgWidth] = useState(0);
@@ -33,9 +32,6 @@ function ImageDetail({ image, drawBoxes, setDrawBoxes }) {
     }
   }, [image, scale]);
 
-  const callback = useCallback((box) => {
-    setDrawBoxes(box);
-  }, []);
 
   const updateisAddBoundingBox = useCallback((isAddBoundingBox) => {
     setIsAddBoundingBox(isAddBoundingBox);
@@ -103,7 +99,6 @@ function ImageDetail({ image, drawBoxes, setDrawBoxes }) {
     console.log("Index in array", foundIndex);
     boxes[foundIndex] = newBox;
     setBoxes([...boxes]);
-    // setDrawBoxes(newBox)
   };
 
   const handleTrashIconClick = (e) => {
@@ -164,7 +159,6 @@ function ImageDetail({ image, drawBoxes, setDrawBoxes }) {
           setDrawBoxes={setDrawBoxes}
           filename={image.filename}
           isDrawing={isAddBoundingBox}
-          parrentCallback={callback}
           updateNewListDrawing={updateNewListDrawing}
           imgId={image._id}
         />

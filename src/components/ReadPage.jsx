@@ -23,26 +23,11 @@ function ReadPage(props) {
   const [images, setImages] = useState([]);
 
   let { id } = useParams();
-  
-  // const getImages = async () => {
-    // let res = await axios(API.GETPAGES + `?id=${id}`)
-    
-    // if (res.data.success) {
-      // res = res.data.data
-      // setPages(res);
-      // setImages(formatInput(res));
-    // } else {
-      // navigate(ROUTE.LOGIN);
-    // }
-  // }
-  // useEffect(async() => {
-    // await getImages()
-  // }, []);
+  // console.log(drawBoxes)
 
   useEffect(() => {
     axios.get(API.GETPAGES + `?id=${id}`).then((res) => {
       if (res.data.success) {
-     
         setPages(res.data.data);
         setImages(formatInput(res.data.data));
       } else {
@@ -121,7 +106,7 @@ function ReadPage(props) {
               ) : (
                 <React.Fragment>
                   <p>{`Number of characters detected: ${images[currentPage].boxes.length}`}</p>
-                  <BasicSelect />
+                  <BasicSelect labels={drawBoxes.length > 0 ? drawBoxes[0].label : []}/>
                 </React.Fragment>
               )}
             </Paper>
@@ -186,15 +171,15 @@ const formatInput = (pages) => {
       _id: page.imgId,
       width: page.size[1],
       height: page.size[0],
-      boxes: formatBoxes(page.annotations),
+      boxes: formatBoxes(page.annotations, page.labels),
       filename: page.page_number,
     };
   });
 };
 
-const formatBoxes = (annotation) => {
+const formatBoxes = (annotation, labels) => {
   if (annotation == null) return [];
-  return annotation.map((a) => {
+  let res = annotation.map((a) => {
     let x_min = 100000000,
       x_max = 0,
       y_min = 10000000,
@@ -213,6 +198,11 @@ const formatBoxes = (annotation) => {
       y_max: y_max,
     };
   });
+  
+  for (let i = 0; i < res.length; ++i) {
+    res[i].label = labels[i];
+  }
+  return res;
 };
 
 export default ReadPage;

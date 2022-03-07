@@ -43,7 +43,6 @@ function ImageAnnoDisplay(props) {
     scale,
     filename,
     isDrawing,
-    parrentCallback,
     updateNewListDrawing,
     drawBoxes,
     setDrawBoxes,
@@ -51,7 +50,6 @@ function ImageAnnoDisplay(props) {
 
   const [drawings, setDrawings] = React.useState([]);
   const [mouseState, setMouseState] = React.useState(initMouse);
-  // const [drawBoxes, setDrawBoxes] = useState([]);
 
   const searchBox = (x, y) => {
     boxes.map((box) => {
@@ -61,10 +59,7 @@ function ImageAnnoDisplay(props) {
         y > box.y_min * scale &&
         y < box.y_max * scale
       ) {
-        // console.log(drawBoxes);
-        // console.log(drawBoxes.length)
         setDrawBoxes([box]);
-        // parrentCallback([box]);
       }
     });
   };
@@ -223,7 +218,7 @@ function ImageAnnoDisplay(props) {
                 y={box.y_min * scale}
                 width={(box.x_max - box.x_min) * scale}
                 height={(box.y_max - box.y_min) * scale}
-                style={{ fill: "none", stroke: "red", strokeWidth: "0.5" }}
+                style={{ fill: "none", stroke: "red", strokeWidth: "0.7" }}
               />
             </g>
           )
@@ -259,7 +254,6 @@ ImageAnnoDisplay.propTypes = {
   scale: PropTypes.number.isRequired,
   boxes: PropTypes.array.isRequired,
   isDrawing: PropTypes.bool.isRequired,
-  parrentCallback: PropTypes.func.isRequired,
   updateNewListDrawing: PropTypes.func.isRequired,
 };
 
